@@ -48,10 +48,10 @@ char **list_to_strings(list_t *head)
 			return (NULL);
 		}
 
-		str = _strcpy(str, node->strs);
+		str = _strcpy(str, node->str);
 		strs[a] = str;
 	}
-	str[a] = NULL;
+	str[a] = '\0';
 	return (strs);
 }
 
@@ -87,7 +87,7 @@ size_t print_list(const list_t *h)
  *
  * Return: the node or null
  */
-list_t *node_starts_with(list_t *nide, char *prefix, char c)
+list_t *node_starts_with(list_t *node, char *prefix, char c)
 {
 	char *p = NULL;
 
