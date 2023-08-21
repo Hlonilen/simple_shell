@@ -3,11 +3,12 @@
 /**
  * interactive - If the shell is in interactive mode, this function returns true.
  * @info: struct address
+ *
  * Return: If in interactive mode, 1; otherwise, 0.
  */
 int interactive(info_val *info)
 {
-        return (isatty(STDIN_FILENO) && info->readval <= 2);
+	return (isatty(STDIN_FILENO) && info->readval <= 2);
 }
 
 /**
@@ -18,10 +19,10 @@ int interactive(info_val *info)
  */
 int is_delim(char valcum, char *delim)
 {
-        while (*delim)
-                if (*delim++ == valcum)
-                        return (1);
-        return (0);
+	while (*delim)
+		if (*delim++ == valcum)
+			return (1);
+	return (0);
 }
 
 /**
@@ -32,11 +33,12 @@ int is_delim(char valcum, char *delim)
 
 int _isalpha(int valcum)
 {
-        if ((valcum >= 'a' && valcum <= 'z') || (valcum >= 'A' && valcum <= 'Z'))
-                return (1);
-        else
-                return (0);
+	if ((valcum >= 'a' && valcum <= 'z') || (valcum >= 'A' && valcum <= 'Z'))
+		return (1);
+	else
+		return (0);
 }
+
 /**
  * _atoi - transforms a string to an integer
  * @valsum: the string that will be transformed
@@ -45,28 +47,28 @@ int _isalpha(int valcum)
 
 int _atoi(char *valsum)
 {
-        int valin, sign = 1, flag = 0, output;
-        unsigned int result = 0;
+	int valin, sign = 1, flag = 0, output;
+	unsigned int result = 0;
 
-        for (valin = 0; valsum[valin] != '\0' && flag != 2; valin++)
-        {
-                if (valsum[valin] == '-')
-                        sign *= -1;
+	for (valin = 0; valsum[valin] != '\0' && flag != 2; valin++)
+	{
+		if (valsum[valin] == '-')
+			sign *= -1;
 
-                if (valsum[valin] >= '0' && valsum[valin] <= '9')
-                {
-                        flag = 1;
-                        result *= 10;
-                        result += (valsum[valin] - '0');
-                }
-                else if (flag == 1)
-                        flag = 2;
-        }
+		if (valsum[valin] >= '0' && valsum[valin] <= '9')
+		{
+			flag = 1;
+			result *= 10;
+			result += (valsum[valin] - '0');
+		}
+		else if (flag == 1)
+			flag = 2;
+	}
 
-        if (sign == -1)
-                output = -result;
-        else
-                output = result;
+	if (sign == -1)
+		output = -result;
+	else
+		output = result;
 
-        return (output);
+	return (output);
 }
