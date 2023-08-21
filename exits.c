@@ -10,7 +10,7 @@
 char *_strncpy(char *objec, char *fount, int valnom)
 {
 	int valin, valjun;
-	char *valsum = object;
+	char *valsum = objec;
 
 	valin = 0;
 	while (fount[valin] != '\0' && valin < valnom - 1)
@@ -40,7 +40,7 @@ char *_strncpy(char *objec, char *fount, int valnom)
 char *_strncat(char *objec, char *fount, int valnom)
 {
 	int valin, valjun;
-	char *valsum = object;
+	char *valsum = objec;
 
 	valin = 0;
 	valjun = 0;

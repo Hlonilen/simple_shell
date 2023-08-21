@@ -24,7 +24,7 @@ void set_info(info_val *info, char **avent)
 	info->fname = avent[0];
 	if (info->arg)
 	{
-		info->argv = strtow(info->arg, " \t");
+		info->argv = stringwin(info->arg, " \t");
 		if (!info->argv)
 		{
 			info->argv = malloc(sizeof(char *) * 2);

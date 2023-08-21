@@ -112,7 +112,7 @@ int read_history(info_val *info)
  */
 int build_history_list(info_val *info, char *buf, int linecount)
 {
-	list_t *node = NULL;
+	list_val *node = NULL;
 
 	if (info->history)
 		node = info->history;
