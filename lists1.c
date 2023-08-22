@@ -56,7 +56,8 @@ char **list_to_strings(list_val *head)
 }
 
 /**
- * print_list - write a program that prints all elements of a list_val linked list
+ * print_list - write a program that prints all elements of a list_val
+ * linked list
  * @h: pointer
  *
  * Return: the size of the list
