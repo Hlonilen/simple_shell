@@ -9,19 +9,19 @@
  *
  * Return: 0 on success, 1 on error, or error code
  */
-int hsh(info_t *info, char **av)
+int hsh(info_val *info, char **av)
 {
-	ssize_t a = 0;
+	ssize_t in = 0;
 	int builtin_ret = 0;
 
-	while (a != -1 && builtin_ret != -2)
+	while (in != -1 && builtin_ret != -2)
 	{
 		clear_info(info);
 		if (interactive(info))
 			_puts("$ ");
 		_eputchar(BUF_FLUSH);
-		a = get_input(info);
-		if (a != -1)
+		in = get_input(info);
+		if (in != -1)
 		{
 			set_info(info, av);
 			builtin_ret = find_builtin(info);
@@ -52,9 +52,9 @@ int hsh(info_t *info, char **av)
  * Return: -1 if builtin not found, 0 if builtin executed successfully
  * or 1 if builtin found but not successful, -2 if builtin signals exit()
  */
-int find_builtin(info_t *info)
+int find_builtin(info_val *info)
 {
-	int a, built_in_ret = -1;
+	int in, built_in_ret = -1;
 	builtin_table builtintbl[] = {
 		{"exit", _myexit},
 		{"env", _myenv},
@@ -67,11 +67,11 @@ int find_builtin(info_t *info)
 		{NULL, NULL}
 	};
 
-	for (a = 0; builtintbl[a].type; a++)
-		if (_strcmp(info->argv[0], builtintbl[a].type) == 0)
+	for (in = 0; builtintbl[in].type; in++)
+		if (_strcmp(info->argv[0], builtintbl[in].type) == 0)
 		{
 			info->line_count++;
-			built_in_ret = builtintbl[a].func(info);
+			built_in_ret = builtintbl[in].func(info);
 			break;
 		}
 	return (built_in_ret);
@@ -83,10 +83,10 @@ int find_builtin(info_t *info)
  *
  * Return: 0
  */
-void find_cmd(info_t *info)
+void find_cmd(info_val *info)
 {
 	char *path = NULL;
-	int a, b;
+	int in, on;
 
 	info->path = info->argv[0];
 	if (info->linecount_flag == 1)
@@ -94,10 +94,10 @@ void find_cmd(info_t *info)
 		info->line_count++;
 		info->linecount_flag = 0;
 	}
-	for (a = 0, b = 0; info->arg[a]; a++)
-		if (!is_delim(info->arg[a], " \t\n"))
-			b++;
-	if (!b)
+	for (in = 0, on = 0; info->arg[in]; in++)
+		if (!is_delim(info->arg[in], " \t\n"))
+			on++;
+	if (!on)
 		return;
 
 	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
@@ -120,23 +120,23 @@ void find_cmd(info_t *info)
 }
 
 /**
- * fork_cmd - A function that forks exec thread to run cmd
+ * fork_cmd - A function that forks exec thread to run the cmd
  * @info: info struct to be returned
  *
  * Return: nothing
  */
-void fork_cmd(info_t *info)
+void fork_cmd(info_val *info)
 {
-	pid_t child_pid;
+	pid_t chi_pid;
 
-	child_pid = fork();
-	if (child_pid == -1)
+	chi_pid = fork();
+	if (chi_pid == -1)
 	{
 		/* TODO: PUT ERROR FUNCTION */
 		perror("Error:");
 		return;
 	}
-	if (child_pid == 0)
+	if (chi_pid == 0)
 	{
 		if (execve(info->path, info->argv, get_environ(info)) == -1)
 		{

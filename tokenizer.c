@@ -6,21 +6,21 @@
  * **strtow - Write a function that will split a string into words.
  * Repeat delimiters are ignored
  * @d: delimeter string
- * @str: string
+ * @cord: string
  * Return: a pointer, or NULL on failure
  */
 
-char **strtow(char *str, char *d)
+char **strtow(char *cord, char *d)
 {
-	int a, b, c, e, numwords = 0;
+	int in, on, c, e, numwords = 0;
 	char **s;
 
-	if (str == NULL || str[0] == 0)
+	if (cord == NULL || cord[0] == 0)
 		return (NULL);
 	if (!d)
 		d = " ";
-	for (a = 0; str[a] != '\0'; a++)
-		if (!is_delim(str[a], d) && (is_delim(str[a + 1], d) || !str[a + 1]))
+	for (in = 0; cord[in] != '\0'; in++)
+		if (!is_delim(cord[in], d) && (is_delim(cord[in + 1], d) || !cord[in + 1]))
 			numwords++;
 
 	if (numwords == 0)
@@ -28,45 +28,45 @@ char **strtow(char *str, char *d)
 	s = malloc((1 + numwords) * sizeof(char *));
 	if (!s)
 		return (NULL);
-	for (a = 0, b = 0; b < numwords; b++)
+	for (in = 0, on = 0; on < numwords; on++)
 	{
-		while (is_delim(str[a], d))
-			a++;
+		while (is_delim(cord[in], d))
+			in++;
 		c = 0;
-		while (!is_delim(str[a + c], d) && str[a + c])
+		while (!is_delim(cord[in + c], d) && cord[in + c])
 			c++;
-		s[b] = malloc((c + 1) * sizeof(char));
-		if (!s[b])
+		s[on] = malloc((c + 1) * sizeof(char));
+		if (!s[on])
 		{
-			for (c = 0; c < b; c++)
+			for (c = 0; c < on; c++)
 				free(s[c]);
 			free(s);
 			return (NULL);
 		}
 		for (e = 0; e < c; e++)
-			s[b][e] = str[a++];
-		s[b][e] = 0;
+			s[on][e] = cord[in++];
+		s[on][e] = 0;
 	}
-	s[b] = NULL;
+	s[on] = NULL;
 	return (s);
 }
 
 /**
  * **strtow2 - Write a fucntion that splits a string into words
- * @str: string
+ * @cord: string
  * @d: the delimeter
  * Return: a pointer, or NULL on failure
  */
-char **strtow2(char *str, char d)
+char **strtow2(char *cord, char d)
 {
 	int w, x, y, z, numwords = 0;
 	char **s;
 
-	if (str == NULL || str[0] == 0)
+	if (cord == NULL || cord[0] == 0)
 		return (NULL);
-	for (w = 0; str[w] != '\0'; w++)
-		if ((str[w] != d && str[w + 1] == d) ||
-		    (str[w] != d && !str[w + 1]) || str[w + 1] == d)
+	for (w = 0; cord[w] != '\0'; w++)
+		if ((cord[w] != d && cord[w + 1] == d) ||
+		    (cord[w] != d && !cord[w + 1]) || cord[w + 1] == d)
 			numwords++;
 	if (numwords == 0)
 		return (NULL);
@@ -75,10 +75,10 @@ char **strtow2(char *str, char d)
 		return (NULL);
 	for (w = 0, x = 0; x < numwords; x++)
 	{
-		while (str[w] == d && str[w] != d)
+		while (cord[w] == d && cord[w] != d)
 			w++;
 		y = 0;
-		while (str[w + y] != d && str[w + y] && str[w + y] != d)
+		while (cord[w + y] != d && cord[w + y] && cord[w + y] != d)
 			y++;
 		s[x] = malloc((y + 1) * sizeof(char));
 		if (!s[x])
@@ -89,7 +89,7 @@ char **strtow2(char *str, char d)
 			return (NULL);
 		}
 		for (z = 0; z < y; z++)
-			s[x][z] = str[w++];
+			s[x][z] = cord[w++];
 		s[x][z] = 0;
 	}
 	s[x] = NULL;

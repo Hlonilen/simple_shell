@@ -10,14 +10,14 @@
  */
 int _strlen(char *s)
 {
-	int a = 0;
+	int in = 0;
 
 	if (!s)
 		return (0);
 
 	while (*s++)
-		a++;
-	return (a);
+		in++;
+	return (in);
 }
 
 /**
@@ -66,14 +66,14 @@ char *starts_with(const char *haystack, const char *needle)
  *
  * Return: pointer
  */
-char *_strcat(char *dest, char *src)
+char *_strcat(char *dest, char *cord)
 {
 	char *ret = dest;
 
 	while (*dest)
 		dest++;
-	while (*src)
-		*dest++ = *src++;
-	*dest = *src;
+	while (*cord)
+		*dest++ = *cord++;
+	*dest = *cord;
 	return (ret);
 }
