@@ -10,7 +10,7 @@
  * Return: a pointer, or NULL on failure
  */
 
-char **strtow(char *cord, char *d)
+char **stringwin(char *cord, char *d)
 {
 	int in, on, c, e, numwords = 0;
 	char **s;
@@ -57,7 +57,7 @@ char **strtow(char *cord, char *d)
  * @d: the delimeter
  * Return: a pointer, or NULL on failure
  */
-char **strtow2(char *cord, char d)
+char **stingwins(char *cord, char d)
 {
 	int w, x, y, z, numwords = 0;
 	char **s;
