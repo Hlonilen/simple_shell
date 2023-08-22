@@ -12,13 +12,13 @@
  */
 int is_cmd(info_val *info, char *path)
 {
-	struct stat st;
+	struct stat sting;
 
 	(void)info;
-	if (!path || stat(path, &st))
+	if (!path || stat(path, &sting))
 		return (0);
 
-	if (st.st_mode & S_IFREG)
+	if (sting.st_mode & S_IFREG)
 	{
 		return (1);
 	}
@@ -28,37 +28,37 @@ int is_cmd(info_val *info, char *path)
 /**
  * dup_chars - write a program that duplicates characters
  * @stop: the index to stop duplicating
- * @pathstr: Path str
+ * @pathcord: Path str
  * @start: index to start
  *
  * Return: new buffer
  */
-char *dup_chars(char *pathstr, int start, int stop)
+char *dup_chars(char *pathcord, int start, int stop)
 {
 	static char buf[1024];
-	int in = 0, on = 0;
+	int valin = 0, valkin = 0;
 
-	for (on = 0, in = start; in < stop; in++)
-		if (pathstr[in] != ':')
-			buf[on++] = pathstr[in];
-	buf[on] = 0;
+	for (valkin = 0, valin = start; valin < stop; valin++)
+		if (pathcord[valin] != ':')
+			buf[valkin++] = pathcord[valin];
+	buf[valkin] = 0;
 	return (buf);
 }
 
 /**
  * find_path - Write program that finds this cmd in the PATH string
  * @cmd: The cmd file to find
- * @pathstr: the PATH string
+ * @pathcord: the PATH string
  * @info: info
  *
  * Return: NULL
  */
-char *find_path(info_val *info, char *pathstr, char *cmd)
+char *find_path(info_val *info, char *pathcord, char *cmd)
 {
-	int in = 0, curr_pos = 0;
+	int valin = 0, curr_post = 0;
 	char *path;
 
-	if (!pathstr)
+	if (!pathcord)
 		return (NULL);
 	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
 	{
@@ -67,9 +67,9 @@ char *find_path(info_val *info, char *pathstr, char *cmd)
 	}
 	while (1)
 	{
-		if (!pathstr[in] || pathstr[in] == ':')
+		if (!pathcord[valin] || pathcord[valin] == ':')
 		{
-			path = dup_chars(pathstr, curr_pos, in);
+			path = dup_chars(pathcord, curr_post, valin);
 			if (!*path)
 				_strcat(path, cmd);
 			else
@@ -79,11 +79,11 @@ char *find_path(info_val *info, char *pathstr, char *cmd)
 			}
 			if (is_cmd(info, path))
 				return (path);
-			if (!pathstr[in])
+			if (!pathcord[valin])
 				break;
-			curr_pos = in;
+			curr_post = valin;
 		}
-		in++;
+		valin++;
 	}
 	return (NULL);
 }

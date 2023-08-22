@@ -33,6 +33,7 @@ list_val *add_node(list_val **head, const char *cord, int num)
 	return (new_head);
 }
 
+
 /**
  * add_node_end - adds a node to the end of the list
  * @head: address of the reference to the head node
@@ -73,6 +74,7 @@ list_val *add_node_end(list_val **head, const char *cord, int num)
 		*head = new_node;
 	return (new_node);
 }
+
 
 /**
  * print_list_str - Only the str element of a list_val linked list is printed.
@@ -134,19 +136,20 @@ int delete_node_at_index(list_val **head, unsigned int index)
 	return (0);
 }
 
+
 /**
  * free_list - frees all nodes of a list
- * @headpota: address of the reference to the head node
+ * @headpointa: address of the reference to the head node
  *
  * Return: void
  */
-void free_list(list_val **headpota)
+void free_list(list_val **headpointa)
 {
 	list_val *node, *next_node, *head;
 
-	if (!headpota || !*headpota)
+	if (!headpointa || !*headpointa)
 		return;
-	head = *headpota;
+	head = *headpointa;
 	node = head;
 	while (node)
 	{
@@ -155,5 +158,5 @@ void free_list(list_val **headpota)
 		free(node);
 		node = next_node;
 	}
-	*headpota = NULL;
+	*headpointa = NULL;
 }

@@ -5,25 +5,25 @@
 /**
  * hsh - main loop
  * @info: info struct and parameter to be returned
- * @av: argument vector
+ * @avent: argument vector
  *
  * Return: 0 on success, 1 on error, or error code
  */
-int hsh(info_val *info, char **av)
+int hsh(info_val *info, char **avent)
 {
-	ssize_t in = 0;
+	ssize_t valrun = 0;
 	int builtin_ret = 0;
 
-	while (in != -1 && builtin_ret != -2)
+	while (valrun != -1 && builtin_ret != -2)
 	{
 		clear_info(info);
 		if (interactive(info))
 			_puts("$ ");
 		_eputchar(BUF_FLUSH);
-		in = get_input(info);
-		if (in != -1)
+		valrun = get_input(info);
+		if (valrun != -1)
 		{
-			set_info(info, av);
+			set_info(info, avent);
 			builtin_ret = find_builtin(info);
 			if (builtin_ret == -1)
 				find_cmd(info);
@@ -45,6 +45,7 @@ int hsh(info_val *info, char **av)
 	return (builtin_ret);
 }
 
+
 /**
  * find_builtin - Write a fucntion that finds a builtin command
  * @info: info struct and parameter
@@ -54,7 +55,7 @@ int hsh(info_val *info, char **av)
  */
 int find_builtin(info_val *info)
 {
-	int in, built_in_ret = -1;
+	int valin, built_in_ret = -1;
 	builtin_table builtintbl[] = {
 		{"exit", _myexit},
 		{"env", _myenv},
@@ -67,11 +68,11 @@ int find_builtin(info_val *info)
 		{NULL, NULL}
 	};
 
-	for (in = 0; builtintbl[in].type; in++)
-		if (_strcmp(info->argv[0], builtintbl[in].type) == 0)
+	for (valin = 0; builtintbl[valin].type; valin++)
+		if (_strcmp(info->argv[0], builtintbl[valin].type) == 0)
 		{
 			info->line_count++;
-			built_in_ret = builtintbl[in].func(info);
+			built_in_ret = builtintbl[valin].func(info);
 			break;
 		}
 	return (built_in_ret);
@@ -86,7 +87,7 @@ int find_builtin(info_val *info)
 void find_cmd(info_val *info)
 {
 	char *path = NULL;
-	int in, on;
+	int valin, valkin;
 
 	info->path = info->argv[0];
 	if (info->linecount_flag == 1)
@@ -94,10 +95,10 @@ void find_cmd(info_val *info)
 		info->line_count++;
 		info->linecount_flag = 0;
 	}
-	for (in = 0, on = 0; info->arg[in]; in++)
-		if (!is_delim(info->arg[in], " \t\n"))
-			on++;
-	if (!on)
+	for (valin = 0, valkin = 0; info->arg[valin]; valin++)
+		if (!is_delim(info->arg[valin], " \t\n"))
+			valkin++;
+	if (!valkin)
 		return;
 
 	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
@@ -109,7 +110,7 @@ void find_cmd(info_val *info)
 	else
 	{
 		if ((interactive(info) || _getenv(info, "PATH=")
-			|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
+					|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
 			fork_cmd(info);
 		else if (*(info->arg) != '\n')
 		{

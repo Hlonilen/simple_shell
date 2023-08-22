@@ -4,33 +4,33 @@
 
 /**
  * main - starting point
- * @av: argument vector
- * @ac: argument count
+ * @avent: argument vector
+ * @acent: argument count
  *
  * Return: 0 on success, 1 on error
  */
-int main(int ac, char **av)
+int main(int acent, char **avent)
 {
 	info_val info[] = { INFO_INIT };
 	int val = 2;
 
 	asm ("mov %1, %0\n\t"
-		"add $3, %0"
-		: "=r" (val)
-		: "r" (val));
+			"add $3, %0"
+			: "=r" (val)
+			: "r" (val));
 
-	if (ac == 2)
+	if (acent == 2)
 	{
-		val = open(av[1], O_RDONLY);
+		val = open(avent[1], O_RDONLY);
 		if (val == -1)
 		{
 			if (errno == EACCES)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				_eputs(av[0]);
+				_eputs(avent[0]);
 				_eputs(": 0: Can't open ");
-				_eputs(av[1]);
+				_eputs(avent[1]);
 				_eputchar('\n');
 				_eputchar(BUF_FLUSH);
 				exit(127);
@@ -41,6 +41,6 @@ int main(int ac, char **av)
 	}
 	populate_env_list(info);
 	read_history(info);
-	hsh(info, av);
+	hsh(info, avent);
 	return (EXIT_SUCCESS);
 }

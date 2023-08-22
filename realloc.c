@@ -4,62 +4,62 @@
 
 /**
  * *_memset - Write a program will fill the  memory with a constant byte
- * @s: the pointer to the memory area
- * @n: bytes amount
- * @b: the byte that will be used to fill *s
+ * @valsum: the pointer to the memory area
+ * @valnom: bytes amount
+ * @valbin: the byte that will be used to fill *valsum
  *
- * Return: pointer *s
+ * Return: pointer *valsum
  */
-char *_memset(char *s, char b, unsigned int n)
+char *_memset(char *valsum, char valbin, unsigned int valnom)
 {
-	unsigned int in;
+	unsigned int valin;
 
-	for (in = 0; in < n; in++)
-		s[in] = b;
-	return (s);
+	for (valin = 0; valin < valnom; valin++)
+		valsum[valin] = valbin;
+	return (valsum);
 }
 
 /**
  * ffree - Write a function or peogram that will free a string off strings
- * @pp: string
+ * @valpins: the string
  */
-void ffree(char **pp)
+void ffree(char **valpins)
 {
-	char **in = pp;
+	char **valana = valpins;
 
-	if (!pp)
+	if (!valpins)
 		return;
-	while (*pp)
-		free(*pp++);
-	free(in);
+	while (*valpins)
+		free(*valpins++);
+	free(valana);
 }
 
 /**
  * _realloc - Write a function that will reallocate a block of memory
  * @new_size: new block size
- * @ptr: pointer to old malloc'ated block
+ * @pota: pointer to old malloc'ated block
  * @old_size: old block size
  *
  * Return: pointer
  */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+void *_realloc(void *pota, unsigned int old_size, unsigned int new_size)
 {
-	char *poin;
+	char *valpin;
 
-	if (!ptr)
+	if (!pota)
 		return (malloc(new_size));
 	if (!new_size)
-		return (free(ptr), NULL);
+		return (free(pota), NULL);
 	if (new_size == old_size)
-		return (ptr);
-	poin = malloc(new_size);
-	if (!poin)
+		return (pota);
+	valpin = malloc(new_size);
+	if (!pota)
 		return (NULL);
 
 	old_size = old_size < new_size ? old_size : new_size;
 	while (old_size--)
-		poin[old_size] = ((char *)ptr)[old_size];
+		valpin[old_size] = ((char *)pota)[old_size];
 
-	free(ptr);
-	return (poin);
+	free(pota);
+	return (valpin);
 }

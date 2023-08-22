@@ -4,16 +4,16 @@
 
 /**
  * bfree - write a program that frees a pointer and NULLs the address
- * @ptr: the address of the pointer to freed
+ * @pota: the address of the pointer to freed
  *
  * Return: 1 if freed, otherwise 0.
  */
-int bfree(void **ptr)
+int bfree(void **pota)
 {
-	if (ptr && *ptr)
+	if (pota && *pota)
 	{
-		free(*ptr);
-		*ptr = NULL;
+		free(*pota);
+		*pota = NULL;
 		return (1);
 	}
 	return (0);

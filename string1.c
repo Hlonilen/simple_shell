@@ -3,23 +3,23 @@
 
 /**
  * _strcpy - A function that will copy a string
- * @src: source
+ * @fount: source
  * @dest: the destination
  *
  * Return: pointer
  */
-char *_strcpy(char *dest, char *src)
+char *_strcpy(char *dest, char *fount)
 {
-	int in = 0;
+	int valin = 0;
 
-	if (dest == src || src == 0)
+	if (dest == fount || fount == 0)
 		return (dest);
-	while (src[in])
+	while (fount[valin])
 	{
-		dest[in] = src[in];
-		in++;
+		dest[valin] = fount[valin];
+		valin++;
 	}
-	dest[in] = 0;
+	dest[valin] = 0;
 	return (dest);
 }
 
@@ -32,18 +32,18 @@ char *_strcpy(char *dest, char *src)
 char *_strdup(const char *cord)
 {
 	int len = 0;
-	char *ret;
+	char *bun;
 
 	if (cord == NULL)
 		return (NULL);
 	while (*cord++)
 		len++;
-	ret = malloc(sizeof(char) * (len + 1));
-	if (!ret)
+	bun = malloc(sizeof(char) * (len + 1));
+	if (!bun)
 		return (NULL);
 	for (len++; len--;)
-		ret[len] = *--cord;
-	return (ret);
+		bun[len] = *--cord;
+	return (bun);
 }
 
 /**
@@ -54,35 +54,35 @@ char *_strdup(const char *cord)
  */
 void _puts(char *cord)
 {
-	int in = 0;
+	int valin = 0;
 
 	if (!cord)
 		return;
-	while (cord[in] != '\0')
+	while (cord[valin] != '\0')
 	{
-		_putchar(cord[in]);
-		in++;
+		_putchar(cord[valin]);
+		valin++;
 	}
 }
 
 /**
  * _putchar - A function that will write the character c to stdout
- * @c: The character
+ * @valcum: The character
  *
  * Return: On success 1. On error -1
  * is returned, and errno is set
  */
-int _putchar(char c)
+int _putchar(char valcum)
 {
-	static int in;
+	static int valin;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || in >= WRITE_BUF_SIZE)
+	if (valcum == BUF_FLUSH || valin >= WRITE_BUF_SIZE)
 	{
-		write(1, buf, in);
-		in = 0;
+		write(1, buf, valin);
+		valin = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[in++] = c;
+	if (valcum != BUF_FLUSH)
+		buf[valin++] = valcum;
 	return (1);
 }

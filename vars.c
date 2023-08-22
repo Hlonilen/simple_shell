@@ -7,70 +7,69 @@
  * char in buffer is a chain delimeter
  * @info: info struct and parameter
  * @buf: buffer character
- * @p: the location/address of current position in buffer
- *
+ * @valpin: current location in buf
  * Return: 1 if chain delimeter, otherwise 0
  */
-int is_chain(info_val *info, char *buf, size_t *p)
+int is_chain(info_val *info, char *buf, size_t *valpin)
 {
-	size_t of = *p;
+	size_t valjun = *valpin;
 
-	if (buf[of] == '|' && buf[of + 1] == '|')
+	if (buf[valjun] == '|' && buf[valjun + 1] == '|')
 	{
-		buf[of] = 0;
-		of++;
+		buf[valjun] = 0;
+		valjun++;
 		info->cmd_buf_type = CMD_OR;
 	}
-	else if (buf[of] == '&' && buf[of + 1] == '&')
+	else if (buf[valjun] == '&' && buf[valjun + 1] == '&')
 	{
-		buf[of] = 0;
-		of++;
+		buf[valjun] = 0;
+		valjun++;
 		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[of] == ';') /* at the end of this command */
+	else if (buf[valjun] == ';') /* at the end of this command */
 	{
-		buf[of] = 0; /* will replace semicolon with null */
+		buf[valjun] = 0; /* will replace semicolon with null */
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
 		return (0);
-	*p = of;
+	*valpin = valjun;
 	return (1);
 }
 
 /**
  * check_chain - A function that will check if we should continue chaining
  * based on last status
- * @i: initial position
- * @p: location of present position in buffer
+ * @valin: initial position
+ * @valpin: location of present position in buffer
  * @info: info struct and the parameter
  * @buf: buffer character
  * @len: length of buffer
  *
  * Return: nothing
  */
-void check_chain(info_val *info, char *buf, size_t *p, size_t i, size_t len)
+void check_chain(info_val *info, char *buf, size_t *valpin, size_t valin, size_t len)
 {
-	size_t of = *p;
+	size_t valjun = *valpin;
 
 	if (info->cmd_buf_type == CMD_AND)
 	{
 		if (info->status)
 		{
-			buf[i] = 0;
-			of = len;
+			buf[valin] = 0;
+			valjun = len;
 		}
 	}
 	if (info->cmd_buf_type == CMD_OR)
 	{
 		if (!info->status)
 		{
-			buf[i] = 0;
-			of = len;
+			buf[valin] = 0;
+			valjun = len;
 		}
 	}
 
-	*p = of;
+	*valpin = valjun;
 }
 
 /**
@@ -81,23 +80,23 @@ void check_chain(info_val *info, char *buf, size_t *p, size_t i, size_t len)
  */
 int replace_alias(info_val *info)
 {
-	int in;
+	int valin;
 	list_val *node;
-	char *poin;
+	char *valpin;
 
-	for (in = 0; in < 10; in++)
+	for (valin = 0; valin < 10; valin++)
 	{
 		node = node_starts_with(info->alias, info->argv[0], '=');
 		if (!node)
 			return (0);
 		free(info->argv[0]);
-		poin = _strchr(node->cord, '=');
-		if (!poin)
+		valpin = _strchr(node->cord, '=');
+		if (!valpin)
 			return (0);
-		poin = _strdup(poin + 1);
-		if (!poin)
+		valpin = _strdup(valpin + 1);
+		if (!valpin)
 			return (0);
-		info->argv[0] = poin;
+		info->argv[0] = valpin;
 	}
 	return (1);
 }
@@ -110,34 +109,34 @@ int replace_alias(info_val *info)
  */
 int replace_vars(info_val *info)
 {
-	int in = 0;
+	int valin = 0;
 	list_val *node;
 
-	for (in = 0; info->argv[in]; in++)
+	for (valin = 0; info->argv[valin]; valin++)
 	{
-		if (info->argv[in][0] != '$' || !info->argv[in][1])
+		if (info->argv[valin][0] != '$' || !info->argv[valin][1])
 			continue;
 
-		if (!_strcmp(info->argv[in], "$?"))
+		if (!_strcmp(info->argv[valin], "$?"))
 		{
-			replace_string(&(info->argv[in]),
+			replace_string(&(info->argv[valin]),
 				_strdup(convert_number(info->status, 10, 0)));
 			continue;
 		}
-		if (!_strcmp(info->argv[in], "$$"))
+		if (!_strcmp(info->argv[valin], "$$"))
 		{
-			replace_string(&(info->argv[in]),
+			replace_string(&(info->argv[valin]),
 				_strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		node = node_starts_with(info->env, &info->argv[in][1], '=');
+		node = node_starts_with(info->env, &info->argv[valin][1], '=');
 		if (node)
 		{
-			replace_string(&(info->argv[in]),
+			replace_string(&(info->argv[valin]),
 				_strdup(_strchr(node->cord, '=') + 1));
 			continue;
 		}
-		replace_string(&info->argv[in], _strdup(""));
+		replace_string(&info->argv[valin], _strdup(""));
 
 	}
 	return (0);
@@ -145,14 +144,14 @@ int replace_vars(info_val *info)
 
 /**
  * replace_string - a function to replace the string
- * @old: address of previous string
- * @new: current string
+ * @former: address of previous string
+ * @brandnew: current string
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int replace_string(char **old, char *new)
+int replace_string(char **former, char *brandnew)
 {
-	free(*old);
-	*old = new;
+	free(*former);
+	*former = brandnew;
 	return (1);
 }
