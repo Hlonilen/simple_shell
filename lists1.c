@@ -7,16 +7,16 @@
  *
  * Return: the size of the list
  */
-size_t list_len(const list_t *h)
+size_t list_len(const list_val *h)
 {
-	size_t a = 0;
+	size_t in = 0;
 
 	while (h)
 	{
 		h = h->next;
-		a++;
+		in++;
 	}
-	return (a);
+	return (in);
 }
 
 /**
@@ -25,57 +25,58 @@ size_t list_len(const list_t *h)
  *
  * Return: an array of strings
  */
-char **list_to_strings(list_t *head)
+char **list_to_strings(list_val *head)
 {
-	list_t *node = head;
-	size_t a = list_len(head), b;
+	list_val *node = head;
+	size_t in = list_len(head), on;
 	char **strs;
-	char *str;
+	char *cord;
 
-	if (!head || !a)
+	if (!head || !in)
 		return (NULL);
-	strs = malloc(sizeof(char *) * (a + 1));
+	strs = malloc(sizeof(char *) * (in + 1));
 	if (!strs)
 		return (NULL);
-	for (a = 0; node; node = node->next, a++)
+	for (in = 0; node; node = node->next, in++)
 	{
-		str = malloc(_strlen(node->str) + 1);
-		if (!str)
+		cord = malloc(_strlen(node->cord) + 1);
+		if (!cord)
 		{
-			for (b = 0; b < a; b++)
-				free(strs[b]);
+			for (on = 0; on < in; on++)
+				free(strs[on]);
 			free(strs);
 			return (NULL);
 		}
 
-		str = _strcpy(str, node->str);
-		strs[a] = str;
+		cord = _strcpy(cord, node->cord);
+		strs[in] = cord;
 	}
-	str[a] = '\0';
+	cord[in] = '\0';
 	return (strs);
 }
 
 /**
- * print_list - write a program that prints all elements of a list_t linked list
+ * print_list - write a program that prints all elements of a list_val
+ * linked list
  * @h: pointer
  *
  * Return: the size of the list
  */
-size_t print_list(const list_t *h)
+size_t print_list(const list_val *h)
 {
-	size_t a = 0;
+	size_t in = 0;
 
 	while (h)
 	{
 		_puts(convert_number(h->num, 10, 0));
 		_putchar(':');
 		_putchar(' ');
-		_puts(h->str ? h->str : "(nil)");
+		_puts(h->cord ? h->cord : "(nil)");
 		_puts("\n");
 		h = h->next;
-		a++;
+		in++;
 	}
-	return (a);
+	return (in);
 }
 
 /**
@@ -87,14 +88,14 @@ size_t print_list(const list_t *h)
  *
  * Return: the node or null
  */
-list_t *node_starts_with(list_t *node, char *prefix, char c)
+list_val *node_starts_with(list_val *node, char *prefix, char c)
 {
-	char *p = NULL;
+	char *poin = NULL;
 
 	while (node)
 	{
-		p = starts_with(node->str, prefix);
-		if (p && ((c == -1) || (*p == c)))
+		poin = starts_with(node->cord, prefix);
+		if (poin && ((c == -1) || (*poin == c)))
 			return (node);
 		node = node->next;
 	}
@@ -108,16 +109,16 @@ list_t *node_starts_with(list_t *node, char *prefix, char c)
  *
  * Return: node or -1
  */
-ssize_t get_node_index(list_t *head, list_t *node)
+ssize_t get_node_index(list_val *head, list_val *node)
 {
-	size_t a = 0;
+	size_t in = 0;
 
 	while (head)
 	{
 		if (head == node)
-			return (a);
+			return (in);
 		head = head->next;
-		a++;
+		in++;
 	}
 	return (-1);
 }

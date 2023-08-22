@@ -11,30 +11,30 @@
  *
  * Return: 1 if chain delimeter, otherwise 0
  */
-int is_chain(info_t *info, char *buf, size_t *p)
+int is_chain(info_val *info, char *buf, size_t *p)
 {
-	size_t j = *p;
+	size_t of = *p;
 
-	if (buf[j] == '|' && buf[j + 1] == '|')
+	if (buf[of] == '|' && buf[of + 1] == '|')
 	{
-		buf[j] = 0;
-		j++;
+		buf[of] = 0;
+		of++;
 		info->cmd_buf_type = CMD_OR;
 	}
-	else if (buf[j] == '&' && buf[j + 1] == '&')
+	else if (buf[of] == '&' && buf[of + 1] == '&')
 	{
-		buf[j] = 0;
-		j++;
+		buf[of] = 0;
+		of++;
 		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[j] == ';') /* at the end of this command */
+	else if (buf[of] == ';') /* at the end of this command */
 	{
-		buf[j] = 0; /* will replace semicolon with null */
+		buf[of] = 0; /* will replace semicolon with null */
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
 		return (0);
-	*p = j;
+	*p = of;
 	return (1);
 }
 
@@ -49,16 +49,16 @@ int is_chain(info_t *info, char *buf, size_t *p)
  *
  * Return: nothing
  */
-void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+void check_chain(info_val *info, char *buf, size_t *p, size_t i, size_t len)
 {
-	size_t j = *p;
+	size_t of = *p;
 
 	if (info->cmd_buf_type == CMD_AND)
 	{
 		if (info->status)
 		{
 			buf[i] = 0;
-			j = len;
+			of = len;
 		}
 	}
 	if (info->cmd_buf_type == CMD_OR)
@@ -66,11 +66,11 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 		if (!info->status)
 		{
 			buf[i] = 0;
-			j = len;
+			of = len;
 		}
 	}
 
-	*p = j;
+	*p = of;
 }
 
 /**
@@ -79,25 +79,25 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int replace_alias(info_t *info)
+int replace_alias(info_val *info)
 {
-	int i;
-	list_t *node;
-	char *p;
+	int in;
+	list_val *node;
+	char *poin;
 
-	for (i = 0; i < 10; i++)
+	for (in = 0; in < 10; in++)
 	{
 		node = node_starts_with(info->alias, info->argv[0], '=');
 		if (!node)
 			return (0);
 		free(info->argv[0]);
-		p = _strchr(node->str, '=');
-		if (!p)
+		poin = _strchr(node->cord, '=');
+		if (!poin)
 			return (0);
-		p = _strdup(p + 1);
-		if (!p)
+		poin = _strdup(poin + 1);
+		if (!poin)
 			return (0);
-		info->argv[0] = p;
+		info->argv[0] = poin;
 	}
 	return (1);
 }
@@ -108,36 +108,36 @@ int replace_alias(info_t *info)
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int replace_vars(info_t *info)
+int replace_vars(info_val *info)
 {
-	int i = 0;
-	list_t *node;
+	int in = 0;
+	list_val *node;
 
-	for (i = 0; info->argv[i]; i++)
+	for (in = 0; info->argv[in]; in++)
 	{
-		if (info->argv[i][0] != '$' || !info->argv[i][1])
+		if (info->argv[in][0] != '$' || !info->argv[in][1])
 			continue;
 
-		if (!_strcmp(info->argv[i], "$?"))
+		if (!_strcmp(info->argv[in], "$?"))
 		{
-			replace_string(&(info->argv[i]),
+			replace_string(&(info->argv[in]),
 				_strdup(convert_number(info->status, 10, 0)));
 			continue;
 		}
-		if (!_strcmp(info->argv[i], "$$"))
+		if (!_strcmp(info->argv[in], "$$"))
 		{
-			replace_string(&(info->argv[i]),
+			replace_string(&(info->argv[in]),
 				_strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
+		node = node_starts_with(info->env, &info->argv[in][1], '=');
 		if (node)
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(_strchr(node->str, '=') + 1));
+			replace_string(&(info->argv[in]),
+				_strdup(_strchr(node->cord, '=') + 1));
 			continue;
 		}
-		replace_string(&info->argv[i], _strdup(""));
+		replace_string(&info->argv[in], _strdup(""));
 
 	}
 	return (0);

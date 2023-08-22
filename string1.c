@@ -10,58 +10,58 @@
  */
 char *_strcpy(char *dest, char *src)
 {
-	int a = 0;
+	int in = 0;
 
 	if (dest == src || src == 0)
 		return (dest);
-	while (src[a])
+	while (src[in])
 	{
-		dest[a] = src[a];
-		a++;
+		dest[in] = src[in];
+		in++;
 	}
-	dest[a] = 0;
+	dest[in] = 0;
 	return (dest);
 }
 
 /**
  * _strdup - Write a function that will duplicate a string
- * @str: the string
+ * @cord: the string
  *
  * Return: pointer
  */
-char *_strdup(const char *str)
+char *_strdup(const char *cord)
 {
 	int len = 0;
 	char *ret;
 
-	if (str == NULL)
+	if (cord == NULL)
 		return (NULL);
-	while (*str++)
+	while (*cord++)
 		len++;
 	ret = malloc(sizeof(char) * (len + 1));
 	if (!ret)
 		return (NULL);
 	for (len++; len--;)
-		ret[len] = *--str;
+		ret[len] = *--cord;
 	return (ret);
 }
 
 /**
  *_puts - Write a function that will print an input string
- *@str: the string
+ *@cord: the string
  *
  * Return: 0 always
  */
-void _puts(char *str)
+void _puts(char *cord)
 {
-	int a = 0;
+	int in = 0;
 
-	if (!str)
+	if (!cord)
 		return;
-	while (str[a] != '\0')
+	while (cord[in] != '\0')
 	{
-		_putchar(str[a]);
-		a++;
+		_putchar(cord[in]);
+		in++;
 	}
 }
 
@@ -74,15 +74,15 @@ void _puts(char *str)
  */
 int _putchar(char c)
 {
-	static int a;
+	static int in;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || a >= WRITE_BUF_SIZE)
+	if (c == BUF_FLUSH || in >= WRITE_BUF_SIZE)
 	{
-		write(1, buf, a);
-		a = 0;
+		write(1, buf, in);
+		in = 0;
 	}
 	if (c != BUF_FLUSH)
-		buf[a++] = c;
+		buf[in++] = c;
 	return (1);
 }
