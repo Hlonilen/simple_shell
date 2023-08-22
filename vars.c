@@ -40,23 +40,23 @@ int is_chain(info_val *info, char *buf, size_t *valpin)
 /**
  * check_chain - A function that will check if we should continue chaining
  * based on last status
- * @valin: initial position
- * @valpin: location of present position in buffer
+ * @in: initial position
+ * @pin: location of present position in buffer
  * @info: info struct and the parameter
  * @buf: buffer character
  * @len: length of buffer
  *
  * Return: nothing
  */
-void check_chain(info_val *info, char *buf, size_t *valpin, size_t valin, size_t len)
+void check_chain(info_val *info, char *buf, size_t *pin, size_t in, size_t len)
 {
-	size_t valjun = *valpin;
+	size_t valjun = *pin;
 
 	if (info->cmd_buf_type == CMD_AND)
 	{
 		if (info->status)
 		{
-			buf[valin] = 0;
+			buf[in] = 0;
 			valjun = len;
 		}
 	}
@@ -64,12 +64,12 @@ void check_chain(info_val *info, char *buf, size_t *valpin, size_t valin, size_t
 	{
 		if (!info->status)
 		{
-			buf[valin] = 0;
+			buf[in] = 0;
 			valjun = len;
 		}
 	}
 
-	*valpin = valjun;
+	*pin = valjun;
 }
 
 /**

@@ -1,7 +1,8 @@
 #include "shell.h"
 
 /**
- * interactive - If the shell is in interactive mode, this function returns true.
+ * interactive - If the shell is in interactive mode, this function returns
+ * true.
  * @info: struct address
  *
  * Return: If in interactive mode, 1; otherwise, 0.
@@ -42,7 +43,8 @@ int _isalpha(int valcum)
 /**
  * _atoi - transforms a string to an integer
  * @valsum: the string that will be transformed
- * Return: If there are no numbers in the string, return 0; otherwise, return the converted number.
+ * Return: If there are no numbers in the string, return 0; otherwise, return
+ * the converted number.
  */
 
 int _atoi(char *valsum)
