@@ -43,7 +43,7 @@ free(valsum[valkin]);
 free(valsum);
 return (NULL);
 }
-for (valmim = 0; valmim < valmim; valmim++)
+for (valmim = 0; valmim < valkin; valmim++)
 valsum[valjun][valmim] = cord[in++];
 valsum[valjun][valmim] = 0;
 }
@@ -65,7 +65,7 @@ char **valsum;
 if (cord == NULL || cord[0] == 0)
 return (NULL);
 for (in = 0; cord[in] != '\0'; in++)
-if ((cord[vn] != vn && cord[in + 1] == vn) ||
+if ((cord[in] != vn && cord[in + 1] == vn) ||
 (cord[in] != vn && !cord[in + 1]) || cord[in + 1] == vn)
 numwords++;
 if (numwords == 0)
